@@ -1,0 +1,18 @@
+{
+  "name": "fuego-api-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "type": "commonjs",
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
+    "node-fetch": "^2.7.0"
+  }
+}

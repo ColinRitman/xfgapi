@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: Elderfire API Gateway
+  version: 1.0.0
+  description: REST API over Fuego L1 Network RPC
+servers:
+  - url: http://localhost:8787/v1
+paths:
+  /health:
+    get:
+      summary: Well check
+      responses:
+        '200':
+          description: OK
+  /node/info:
+    get:
+      summary: Get node info (maps to /getinfo)
+      responses:
+        '200':
+          description: Node info
+  /node/height:
+    get:
+      summary: Get node height (maps to /getheight)
+      responses:
+        '200':
+          description: Height
+  /node/blockcount:
+    get:
+      summary: Get block count (json_rpc getblockcount)
+      responses:
+        '200':
+          description: Block count
+  /node/last_block_header:
+    get:
+      summary: Get last block header (json_rpc getlastblockheader)
+      responses:
+        '200':
+          description: Header
+  /node/block_header_by_height/{height}:
+    get:
+      summary: Get block header by height (json_rpc getblockheaderbyheight)
+      parameters:
+        - in: path
+          name: height
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Header
+  /wallet/balance:
+    get:
+      summary: Get wallet balance (wallet getbalance)
+      responses:
+        '200':
+          description: Balance
+  /wallet/height:
+    get:
+      summary: Get wallet height (wallet get_height)
+      responses:
+        '200':
+          description: Height
+  /wallet/transfers:
+    post:
+      summary: Get transfers (wallet get_transfers)
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Transfers
+  /wallet/transfer:
+    post:
+      summary: Send transfer (wallet transfer)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                destinations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      amount:
+                        type: integer
+                payment_id:
+                  type: string
+                mixin:
+                  type: integer
+                unlock_time:
+                  type: integer
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      message:
+                        type: string
+                ttl:
+                  type: integer
+      responses:
+        '200':
+          description: Transfer result
+  /wallet/optimize:
+    post:
+      summary: Optimize wallet (wallet optimize)
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Optimize result
