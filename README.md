@@ -1,25 +1,45 @@
-## Fuego API Suite
+# XFGAPI - Fuego Blockchain API Suite
 
-- OpenAPI REST layer over the Fuego Network and Wallet RPCs
-- Node.js gateway that translates REST calls to Fuego RPC endpoints
-- Javascript, Rust, Python, Go, Ruby, PHP, Kotlin, & Swift5 clients for easy integration
+A comprehensive REST API layer over the Fuego Network and Wallet RPCs with multi-language client SDKs for easy integration.
 
-### Overview
+## 🚀 Features
 
-- Gateway REST base: `http://localhost:8787/v1`
-- Underlying services:
+- **REST API Gateway** - Node.js gateway that translates REST calls to Fuego RPC endpoints
+- **Multi-Language Support** - Client SDKs for 10+ programming languages
+- **OpenAPI Specification** - Complete API documentation with Swagger/OpenAPI 3.0
+- **Production Ready** - Privacy-focused server with comprehensive security analysis
+
+## 📦 Available Client SDKs
+
+| Language | Client Directory | Description |
+|----------|-----------------|-------------|
+| **JavaScript/Node.js** | [`clients/javascript/`](./clients/javascript/) | Browser and Node.js compatible client |
+| **Python** | [`clients/python/`](./clients/python/) | Python client with requests library |
+| **Go** | [`clients/go/`](./clients/go/) | Go client with full type safety |
+| **Java** | [`clients/java/`](./clients/java/) | Java client with Maven/Gradle support |
+| **C# (.NET)** | [`clients/csharp/`](./clients/csharp/) | .NET client with NuGet package |
+| **PHP** | [`clients/php/`](./clients/php/) | PHP client with Composer support |
+| **Ruby** | [`clients/ruby/`](./clients/ruby/) | Ruby client with Gem support |
+| **Kotlin** | [`clients/kotlin/`](./clients/kotlin/) | Kotlin client for Android/JVM |
+| **Swift 5** | [`clients/swift5/`](./clients/swift5/) | Swift client for iOS/macOS |
+| **Rust** | [`clients/rust/`](./clients/rust/) | Rust client with Cargo support |
+
+## 🏗️ Architecture
+
+- **Gateway REST base**: `http://localhost:8787/v1`
+- **Underlying services**:
   - Core RPC: `CORE_RPC_URL` (default `http://127.0.0.1:8181`)
   - Wallet RPC: `WALLET_RPC_URL` (default `http://127.0.0.1:8070`)
   - Wallet auth (optional): `WALLET_RPC_USER`, `WALLET_RPC_PASSWORD`
 
-### Quick start
+## 🚀 Quick Start
 
-1) Start fuegod and Wallet RPC servers locally.
+### 1. Start the Gateway Server
 
-2) Start the gateway:
+The gateway server is located in [`gateway/`](./gateway/) directory.
 
 ```bash
-cd api/gateway
+cd gateway
 npm install
 CORE_RPC_URL=http://127.0.0.1:8181 \
 WALLET_RPC_URL=http://127.0.0.1:8070 \
@@ -29,24 +49,28 @@ PORT=8787 \
 node server.js
 ```
 
-3) Try requests:
+**Prerequisites**: Start fuegod and Wallet RPC servers locally.
 
-- Node info
+### 2. Test the API
+
+Test the gateway with these example requests:
+
+**Node Information**
 ```bash
 curl http://localhost:8787/v1/node/info
 ```
 
-- Node height
+**Node Height**
 ```bash
 curl http://localhost:8787/v1/node/height
 ```
 
-- Wallet balance
+**Wallet Balance**
 ```bash
 curl http://localhost:8787/v1/wallet/balance
 ```
 
-- Wallet transfer
+**Wallet Transfer**
 ```bash
 curl -X POST http://localhost:8787/v1/wallet/transfer \
   -H 'Content-Type: application/json' \
@@ -60,48 +84,107 @@ curl -X POST http://localhost:8787/v1/wallet/transfer \
   }'
 ```
 
-### OpenAPI Spec
+## 📚 Using Client SDKs
 
-See `api/openapi/fuego-openapi.yaml`. You can import this into Postman, Insomnia, or Swagger UI.
+### JavaScript/Node.js Client
 
-### JavaScript Client (Node/Browser)
+Navigate to [`clients/javascript/`](./clients/javascript/) and follow the README:
 
 ```bash
-cd api/clients/javascript
+cd clients/javascript
 npm install
 ```
 
-Usage:
-```javascript
-const { FuegoNodeClient, FuegoWalletClient } = require('./');
-
-const node = new FuegoNodeClient({ baseUrl: 'http://localhost:8787/v1' });
-const wallet = new FuegoWalletClient({ baseUrl: 'http://localhost:8787/v1' });
-
-(async () => {
-  console.log(await node.getInfo());
-  console.log(await wallet.getBalance());
-})();
-```
-
 ### Python Client
+
+Navigate to [`clients/python/`](./clients/python/) and follow the README:
 
 ```bash
 pip install requests
 ```
 
-Usage:
-```python
-from fuego_api import NodeClient, WalletClient
+### Other Languages
 
-node = NodeClient(base_url='http://localhost:8787/v1')
-wallet = WalletClient(base_url='http://localhost:8787/v1')
+Each client SDK has its own directory with specific installation and usage instructions:
 
-print(node.get_info())
-print(wallet.get_balance())
+- **Go**: [`clients/go/`](./clients/go/) - `go mod tidy && go run main.go`
+- **Java**: [`clients/java/`](./clients/java/) - `mvn install` or `./gradlew build`
+- **C#**: [`clients/csharp/`](./clients/csharp/) - `dotnet build` or `nuget restore`
+- **PHP**: [`clients/php/`](./clients/php/) - `composer install`
+- **Ruby**: [`clients/ruby/`](./clients/ruby/) - `bundle install`
+- **Kotlin**: [`clients/kotlin/`](./clients/kotlin/) - `./gradlew build`
+- **Swift**: [`clients/swift5/`](./clients/swift5/) - `swift build`
+- **Rust**: [`clients/rust/`](./clients/rust/) - `cargo build`
+
+## 📖 API Documentation
+
+### OpenAPI Specification
+
+The complete API specification is available at [`openapi/fuego-openapi.yaml`](./openapi/fuego-openapi.yaml).
+
+**Import into your favorite API client:**
+- **Postman**: Import the OpenAPI YAML file
+- **Insomnia**: Import the OpenAPI YAML file  
+- **Swagger UI**: Use the YAML file with Swagger UI
+- **VS Code**: Use the REST Client extension
+
+### Generate New SDKs
+
+Use the SDK generation script to create clients for additional languages:
+
+```bash
+cd openapi
+./generate_sdks.sh
 ```
 
-### Notes
+## 🔒 Security & Privacy
 
-- The gateway simply forwards to the underlying Core/Wallet RPC servers and normalizes responses and errors.
-- For production, place the gateway behind your API gateway or reverse proxy (e.g., NGINX, Traefik) and configure TLS & auth as needed.
+### Privacy-Focused Server
+
+A privacy-enhanced version of the gateway server is available at [`gateway/server-privacy.js`](./gateway/server-privacy.js).
+
+### Security Analysis
+
+Comprehensive privacy and security analysis is documented in [`privacy-security/privacy-analysis.md`](./privacy-security/privacy-analysis.md).
+
+## 🔗 Explorer Integration
+
+Integration tools for blockchain explorers are available in [`explorer-integration/`](./explorer-integration/):
+
+- Migration scripts for existing explorers
+- Integration documentation
+- Setup guides
+
+## 🏭 Production Deployment
+
+### Important Notes
+
+- The gateway forwards requests to underlying Core/Wallet RPC servers and normalizes responses
+- For production deployments:
+  - Place the gateway behind an API gateway or reverse proxy (NGINX, Traefik)
+  - Configure TLS/SSL encryption
+  - Implement proper authentication and authorization
+  - Set up monitoring and logging
+  - Configure rate limiting and DDoS protection
+
+### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `CORE_RPC_URL` | Core RPC server URL | `http://127.0.0.1:8181` |
+| `WALLET_RPC_URL` | Wallet RPC server URL | `http://127.0.0.1:8070` |
+| `WALLET_RPC_USER` | Wallet RPC username | (optional) |
+| `WALLET_RPC_PASSWORD` | Wallet RPC password | (optional) |
+| `PORT` | Gateway server port | `8787` |
+
+## 📄 License
+
+This project is licensed under the terms specified in the LICENSE file.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please see the contributing guidelines for more information.
+
+---
+
+**Repository**: [https://github.com/ColinRitman/xfgapi](https://github.com/ColinRitman/xfgapi)
