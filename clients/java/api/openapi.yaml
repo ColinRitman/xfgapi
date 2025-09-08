@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  description: REST API over Fuego Wallet RPC
+  title: Elderfire API Gateway
+  version: 1.0.0
+servers:
+- url: http://localhost:8787/v1
+paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: OK
+      summary: Well check
+      x-accepts:
+      - application/json
+  /node/info:
+    get:
+      responses:
+        "200":
+          description: Node info
+      summary: Get node info (maps to /getinfo)
+      x-accepts:
+      - application/json
+  /node/height:
+    get:
+      responses:
+        "200":
+          description: Height
+      summary: Get node height (maps to /getheight)
+      x-accepts:
+      - application/json
+  /node/blockcount:
+    get:
+      responses:
+        "200":
+          description: Block count
+      summary: Get block count (json_rpc getblockcount)
+      x-accepts:
+      - application/json
+  /node/last_block_header:
+    get:
+      responses:
+        "200":
+          description: Header
+      summary: Get last block header (json_rpc getlastblockheader)
+      x-accepts:
+      - application/json
+  /node/block_header_by_height/{height}:
+    get:
+      parameters:
+      - explode: false
+        in: path
+        name: height
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Header
+      summary: Get block header by height (json_rpc getblockheaderbyheight)
+      x-accepts:
+      - application/json
+  /wallet/balance:
+    get:
+      responses:
+        "200":
+          description: Balance
+      summary: Get wallet balance (wallet getbalance)
+      x-accepts:
+      - application/json
+  /wallet/height:
+    get:
+      responses:
+        "200":
+          description: Height
+      summary: Get wallet height (wallet get_height)
+      x-accepts:
+      - application/json
+  /wallet/transfers:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: false
+      responses:
+        "200":
+          description: Transfers
+      summary: Get transfers (wallet get_transfers)
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /wallet/transfer:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_wallet_transfer_post_request"
+        required: true
+      responses:
+        "200":
+          description: Transfer result
+      summary: Send transfer (wallet transfer)
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /wallet/optimize:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        required: false
+      responses:
+        "200":
+          description: Optimize result
+      summary: Optimize wallet (wallet optimize)
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    _wallet_transfer_post_request:
+      properties:
+        destinations:
+          items:
+            $ref: "#/components/schemas/_wallet_transfer_post_request_destinations_inner"
+          type: array
+        payment_id:
+          type: string
+        mixin:
+          type: integer
+        unlock_time:
+          type: integer
+        messages:
+          items:
+            $ref: "#/components/schemas/_wallet_transfer_post_request_messages_inner"
+          type: array
+        ttl:
+          type: integer
+      type: object
+    _wallet_transfer_post_request_destinations_inner:
+      properties:
+        address:
+          type: string
+        amount:
+          type: integer
+      type: object
+    _wallet_transfer_post_request_messages_inner:
+      properties:
+        address:
+          type: string
+        message:
+          type: string
+      type: object
+
